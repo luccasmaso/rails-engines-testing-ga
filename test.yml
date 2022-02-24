@@ -27,11 +27,7 @@ jobs:
         with:
           ruby-version: 2.7.2
           bundler-cache: true
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10.13.0
+          working-directory: './engines/${{ matrix.engines }}'
 
       - name: Build and run tests
         working-directory: './engines/${{ matrix.engines }}'
@@ -39,8 +35,5 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
         run: |
-          gem install bundler
-          bundle config path vendor/bundle
-          bundle install
-          bundle exec rails db:setup
+          bundle exec rails db:setup 
           bundle exec rspec
